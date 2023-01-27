@@ -43,4 +43,4 @@ spec:
     app: django
   ports:
     - port: 8001
-      targetPort: 8001
+      targetPort: 8002
