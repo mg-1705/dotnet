@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    
+    stages {
+        
+        stage('Checkout Source') {
+            steps {
+                git branch: 'main', credentialsId: 'gitcred', url: 'https://github.com/mg-1705/dotnet.git'
+            }
+        }
+        
+        
+
+        stage('Deploying dotnet to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy (configs: 'dotnet.yaml', kubeconfigId: 'kubernetes')
+                }
+            }
+        }
+        
+        stage('Deploying django to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy (configs: 'django.yaml', kubeconfigId: 'kubernetes')
+                }
+            }
+        }
+        
+        stage('Deploying flask to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy (configs: 'flask.yaml', kubeconfigId: 'kubernetes')
+                }
+            }
+        }
+        
+        stage('Deploying java to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy (configs: 'java.yaml', kubeconfigId: 'kubernetes')
+                }
+            }
+        }
+    }
+}
